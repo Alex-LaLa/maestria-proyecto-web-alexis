@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { Router } from '@angular/router';
 import { MatToolbarModule } from '@angular/material/toolbar';
 import { MatButtonModule } from '@angular/material/button';
 import { MatCardModule } from '@angular/material/card';
@@ -18,9 +19,13 @@ import { MatCardModule } from '@angular/material/card';
 })
 export class DashboardComponent {
 
+  constructor(private router: Router) {}
+
   logout(): void {
-    console.log('Cerrar sesión');
-    // Aquí irá la lógica para cerrar sesión.
+    // Si después usas JWT, aquí también eliminarías el token.
+    // localStorage.removeItem('token');
+
+    this.router.navigate(['/login']);
   }
 
 }
