@@ -14,7 +14,7 @@ import {Router} from '@angular/router';
   templateUrl: './login.html',
   styleUrl: './login.css',
 })
-export class Login {
+export class LoginComponent {
   constructor(private router: Router) {}
   ingresarSistema() {
     this.router.navigate(['/dashboard']);
