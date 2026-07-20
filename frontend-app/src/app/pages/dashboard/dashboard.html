@@ -25,5 +25,13 @@
         la información principal del sistema.
       </p>
     </mat-card-content>
+    <mat-card-content>
+      <h2>Datos desde Neon (PostgreSQL)</h2>
+      <ul>
+        <li *ngFor="let msg of mensajes">
+          {{ msg.remitente }} dice: {{ msg.texto }}
+        </li>
+      </ul>
+    </mat-card-content>
   </mat-card>
 </div>
