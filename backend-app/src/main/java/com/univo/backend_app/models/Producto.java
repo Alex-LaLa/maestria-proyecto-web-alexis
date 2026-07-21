@@ -1,13 +1,24 @@
 package com.univo.backend_app.models;
 
+import jakarta.persistence.*;
+
+@Entity
+@Table(name = "productos")
 public class Producto {
+
     // ==========================
-    // ATRIBUTOS (Características)
+    // ATRIBUTOS
     // ==========================
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+
     private String nombre;
-    private double precio;
-    private int stock;
+    private String categoria;
+    private Double precio;
+    private Boolean activo;
+
     // ==========================
     // CONSTRUCTORES
     // ==========================
@@ -15,15 +26,17 @@ public class Producto {
     // Constructor vacío
     public Producto() {
     }
+
     // Constructor con parámetros
-    public Producto(Long id, String nombre, double precio, int stock) {
-        this.id = id;
+    public Producto(String nombre, String categoria, Double precio, Boolean activo) {
         this.nombre = nombre;
+        this.categoria = categoria;
         this.precio = precio;
-        this.stock = stock;
+        this.activo = activo;
     }
+
     // ==========================
-    // GETTERS (Obtener información)
+    // GETTERS
     // ==========================
 
     public Long getId() {
@@ -34,32 +47,35 @@ public class Producto {
         return nombre;
     }
 
-    public double getPrecio() {
+    public String getCategoria() {
+        return categoria;
+    }
+
+    public Double getPrecio() {
         return precio;
     }
 
-    public int getStock() {
-        return stock;
+    public Boolean getActivo() {
+        return activo;
     }
 
-
     // ==========================
-    // SETTERS (Modificar información)
+    // SETTERS
     // ==========================
-
-    public void setId(Long id) {
-        this.id = id;
-    }
 
     public void setNombre(String nombre) {
         this.nombre = nombre;
     }
 
-    public void setPrecio(double precio) {
+    public void setCategoria(String categoria) {
+        this.categoria = categoria;
+    }
+
+    public void setPrecio(Double precio) {
         this.precio = precio;
     }
 
-    public void setStock(int stock) {
-        this.stock = stock;
+    public void setActivo(Boolean activo) {
+        this.activo = activo;
     }
 }
