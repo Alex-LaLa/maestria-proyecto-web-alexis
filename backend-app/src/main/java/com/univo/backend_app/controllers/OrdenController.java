@@ -2,7 +2,7 @@ package com.univo.backend_app.controllers;
 
 import com.univo.backend_app.models.Orden;
 import com.univo.backend_app.repositories.OrdenRepository;
-
+import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -10,7 +10,7 @@ import java.util.List;
 import java.util.Optional;
 
 @RestController
-@RequestMapping("/ordenes")
+@RequestMapping("/api/ordenes")
 public class OrdenController {
 
     @Autowired
@@ -27,20 +27,20 @@ public class OrdenController {
     }
 
     @PostMapping
-    public Orden crearOrden(@RequestBody Orden orden) {
+    public Orden crearOrden(@Valid @RequestBody Orden orden) {
         return ordenRepository.save(orden);
     }
 
     @PutMapping("/{id}")
-    public Orden actualizarOrden(@PathVariable Long id,
-                                 @RequestBody Orden ordenActualizada) {
+    public Orden actualizarOrden(
+            @PathVariable Long id,
+            @Valid @RequestBody Orden ordenActualizada) {
 
         Orden orden = ordenRepository.findById(id).orElseThrow();
 
         orden.setCliente(ordenActualizada.getCliente());
         orden.setEstado(ordenActualizada.getEstado());
         orden.setMotivoCancelacion(ordenActualizada.getMotivoCancelacion());
-        orden.setFechaOrden(ordenActualizada.getFechaOrden());
         orden.setTotal(ordenActualizada.getTotal());
 
         return ordenRepository.save(orden);

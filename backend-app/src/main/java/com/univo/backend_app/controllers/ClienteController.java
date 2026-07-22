@@ -2,7 +2,7 @@ package com.univo.backend_app.controllers;
 
 import com.univo.backend_app.models.Cliente;
 import com.univo.backend_app.repositories.ClienteRepository;
-
+import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -10,7 +10,7 @@ import java.util.List;
 import java.util.Optional;
 
 @RestController
-@RequestMapping("/clientes")
+@RequestMapping("/api/clientes")
 public class ClienteController {
 
     @Autowired
@@ -39,7 +39,7 @@ public class ClienteController {
     // ==========================
 
     @PostMapping
-    public Cliente crearCliente(@RequestBody Cliente cliente) {
+    public Cliente crearCliente(@Valid @RequestBody Cliente cliente) {
         return clienteRepository.save(cliente);
     }
 
@@ -48,15 +48,15 @@ public class ClienteController {
     // ==========================
 
     @PutMapping("/{id}")
-    public Cliente actualizarCliente(@PathVariable Long id,
-                                     @RequestBody Cliente clienteActualizado) {
+    public Cliente actualizarCliente(
+            @PathVariable Long id,
+            @Valid @RequestBody Cliente clienteActualizado) {
 
         Cliente cliente = clienteRepository.findById(id).orElseThrow();
 
         cliente.setNombreCompleto(clienteActualizado.getNombreCompleto());
         cliente.setEmail(clienteActualizado.getEmail());
         cliente.setCiudad(clienteActualizado.getCiudad());
-        cliente.setFechaCreacion(clienteActualizado.getFechaCreacion());
 
         return clienteRepository.save(cliente);
     }

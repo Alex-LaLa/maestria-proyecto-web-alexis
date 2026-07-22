@@ -1,6 +1,9 @@
 package com.univo.backend_app.models;
 
 import jakarta.persistence.*;
+import jakarta.validation.constraints.*;
+import org.hibernate.annotations.UpdateTimestamp;
+
 import java.time.LocalDateTime;
 
 @Entity // Le dice a Spring que esto será una tabla en PostgreSQL
@@ -15,12 +18,21 @@ public class Inventario {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    @NotNull(message = "Debe seleccionar un producto.")
     @OneToOne
     @JoinColumn(name = "producto_id")
     private Producto producto;
 
+    @NotNull(message = "Las unidades disponibles son obligatorias.")
+    @PositiveOrZero(message = "Las unidades disponibles no pueden ser negativas.")
     private Integer unidadesDisponibles;
+
+    @NotNull(message = "El nivel de reorden es obligatorio.")
+    @PositiveOrZero(message = "El nivel de reorden no puede ser negativo.")
     private Integer nivelReorden;
+
+    @UpdateTimestamp
+    @Column(nullable = false)
     private LocalDateTime ultimaActualizacion;
 
     // ==========================
@@ -34,13 +46,11 @@ public class Inventario {
     // Constructor con parámetros
     public Inventario(Producto producto,
                       Integer unidadesDisponibles,
-                      Integer nivelReorden,
-                      LocalDateTime ultimaActualizacion) {
+                      Integer nivelReorden) {
 
         this.producto = producto;
         this.unidadesDisponibles = unidadesDisponibles;
         this.nivelReorden = nivelReorden;
-        this.ultimaActualizacion = ultimaActualizacion;
     }
 
     // ==========================
@@ -83,7 +93,4 @@ public class Inventario {
         this.nivelReorden = nivelReorden;
     }
 
-    public void setUltimaActualizacion(LocalDateTime ultimaActualizacion) {
-        this.ultimaActualizacion = ultimaActualizacion;
-    }
 }

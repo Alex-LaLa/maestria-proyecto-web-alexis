@@ -1,8 +1,9 @@
 package com.univo.backend_app.models;
 
 import jakarta.persistence.*;
-
+import jakarta.validation.constraints.*;
 import java.time.LocalDateTime;
+import org.hibernate.annotations.CreationTimestamp;
 
 @Entity // Le dice a Spring que esto será una tabla en PostgreSQL
 @Table(name = "clientes")
@@ -16,9 +17,18 @@ public class Cliente {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    @NotBlank(message = "El nombre completo es obligatorio.")
     private String nombreCompleto;
+
+    @NotBlank(message = "El correo es obligatorio.")
+    @Email(message = "Debe ingresar un correo válido.")
     private String email;
+
+    @NotBlank(message = "La ciudad es obligatoria.")
     private String ciudad;
+
+    @CreationTimestamp
+    @Column(nullable = false, updatable = false)
     private LocalDateTime fechaCreacion;
 
     // ==========================
@@ -30,11 +40,13 @@ public class Cliente {
     }
 
     // Constructor con parámetros
-    public Cliente(String nombreCompleto, String email, String ciudad, LocalDateTime fechaCreacion) {
+    public Cliente(String nombreCompleto,
+                   String email,
+                   String ciudad) {
+
         this.nombreCompleto = nombreCompleto;
         this.email = email;
         this.ciudad = ciudad;
-        this.fechaCreacion = fechaCreacion;
     }
 
     // ==========================
@@ -77,7 +89,4 @@ public class Cliente {
         this.ciudad = ciudad;
     }
 
-    public void setFechaCreacion(LocalDateTime fechaCreacion) {
-        this.fechaCreacion = fechaCreacion;
-    }
 }

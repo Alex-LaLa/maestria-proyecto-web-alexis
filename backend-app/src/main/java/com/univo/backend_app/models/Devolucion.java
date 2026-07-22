@@ -1,6 +1,8 @@
 package com.univo.backend_app.models;
 
 import jakarta.persistence.*;
+import jakarta.validation.constraints.*;
+import org.hibernate.annotations.CreationTimestamp;
 
 import java.time.LocalDateTime;
 
@@ -11,21 +13,32 @@ public class Devolucion {
     // ==========================
     // ATRIBUTOS (Características)
     // ==========================
-
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    @NotNull(message = "Debe seleccionar un detalle de orden.")
     @ManyToOne
     @JoinColumn(name = "detalle_orden_id")
     private DetalleOrden detalleOrden;
 
+    @NotNull(message = "La cantidad devuelta es obligatoria.")
+    @Positive(message = "La cantidad devuelta debe ser mayor que cero.")
     private Integer cantidadDevuelta;
-    private Double montoReembolsado;
-    private String motivo;
-    private String estado;
-    private LocalDateTime fechaCreacion;
 
+    @NotNull(message = "El monto reembolsado es obligatorio.")
+    @PositiveOrZero(message = "El monto reembolsado no puede ser negativo.")
+    private Double montoReembolsado;
+
+    @NotBlank(message = "El motivo de la devolución es obligatorio.")
+    private String motivo;
+
+    @NotBlank(message = "El estado de la devolución es obligatorio.")
+    private String estado;
+
+    @CreationTimestamp
+    @Column(nullable = false, updatable = false)
+    private LocalDateTime fechaCreacion;
     // ==========================
     // CONSTRUCTORES
     // ==========================
@@ -39,15 +52,13 @@ public class Devolucion {
                       Integer cantidadDevuelta,
                       Double montoReembolsado,
                       String motivo,
-                      String estado,
-                      LocalDateTime fechaCreacion) {
+                      String estado) {
 
         this.detalleOrden = detalleOrden;
         this.cantidadDevuelta = cantidadDevuelta;
         this.montoReembolsado = montoReembolsado;
         this.motivo = motivo;
         this.estado = estado;
-        this.fechaCreacion = fechaCreacion;
     }
 
     // ==========================
@@ -106,7 +117,4 @@ public class Devolucion {
         this.estado = estado;
     }
 
-    public void setFechaCreacion(LocalDateTime fechaCreacion) {
-        this.fechaCreacion = fechaCreacion;
-    }
 }

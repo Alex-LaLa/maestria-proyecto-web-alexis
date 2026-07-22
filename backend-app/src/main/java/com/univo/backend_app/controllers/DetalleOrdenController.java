@@ -2,7 +2,7 @@ package com.univo.backend_app.controllers;
 
 import com.univo.backend_app.models.DetalleOrden;
 import com.univo.backend_app.repositories.DetalleOrdenRepository;
-
+import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -10,7 +10,7 @@ import java.util.List;
 import java.util.Optional;
 
 @RestController
-@RequestMapping("/detalle-orden")
+@RequestMapping("/api/detalle-orden")
 public class DetalleOrdenController {
 
     @Autowired
@@ -27,13 +27,14 @@ public class DetalleOrdenController {
     }
 
     @PostMapping
-    public DetalleOrden crearDetalle(@RequestBody DetalleOrden detalleOrden) {
+    public DetalleOrden crearDetalle(@Valid @RequestBody DetalleOrden detalleOrden) {
         return detalleOrdenRepository.save(detalleOrden);
     }
 
     @PutMapping("/{id}")
-    public DetalleOrden actualizarDetalle(@PathVariable Long id,
-                                          @RequestBody DetalleOrden detalleActualizado) {
+    public DetalleOrden actualizarDetalle(
+            @PathVariable Long id,
+            @Valid @RequestBody DetalleOrden detalleActualizado) {
 
         DetalleOrden detalle = detalleOrdenRepository.findById(id).orElseThrow();
 

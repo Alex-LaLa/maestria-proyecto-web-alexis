@@ -1,6 +1,7 @@
 package com.univo.backend_app.models;
 
 import jakarta.persistence.*;
+import jakarta.validation.constraints.*;
 
 @Entity // Le dice a Spring que esto será una tabla en PostgreSQL
 @Table(name = "detalle_orden")
@@ -14,17 +15,23 @@ public class DetalleOrden {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    @NotNull(message = "Debe seleccionar una orden.")
     @ManyToOne
     @JoinColumn(name = "orden_id")
     private Orden orden;
 
+    @NotNull(message = "Debe seleccionar un producto.")
     @ManyToOne
     @JoinColumn(name = "producto_id")
     private Producto producto;
 
+    @NotNull(message = "La cantidad es obligatoria.")
+    @Positive(message = "La cantidad debe ser mayor que cero.")
     private Integer cantidad;
-    private Double precioUnitario;
 
+    @NotNull(message = "El precio unitario es obligatorio.")
+    @Positive(message = "El precio unitario debe ser mayor que cero.")
+    private Double precioUnitario;
     // ==========================
     // CONSTRUCTORES
     // ==========================

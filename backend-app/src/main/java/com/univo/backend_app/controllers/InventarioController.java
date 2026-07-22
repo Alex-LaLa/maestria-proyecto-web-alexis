@@ -2,7 +2,7 @@ package com.univo.backend_app.controllers;
 
 import com.univo.backend_app.models.Inventario;
 import com.univo.backend_app.repositories.InventarioRepository;
-
+import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -10,7 +10,7 @@ import java.util.List;
 import java.util.Optional;
 
 @RestController
-@RequestMapping("/inventario")
+@RequestMapping("/api/inventario")
 public class InventarioController {
 
     @Autowired
@@ -27,20 +27,20 @@ public class InventarioController {
     }
 
     @PostMapping
-    public Inventario crearInventario(@RequestBody Inventario inventario) {
+    public Inventario crearInventario(@Valid @RequestBody Inventario inventario) {
         return inventarioRepository.save(inventario);
     }
 
     @PutMapping("/{id}")
-    public Inventario actualizarInventario(@PathVariable Long id,
-                                           @RequestBody Inventario inventarioActualizado) {
+    public Inventario actualizarInventario(
+            @PathVariable Long id,
+            @Valid @RequestBody Inventario inventarioActualizado) {
 
         Inventario inventario = inventarioRepository.findById(id).orElseThrow();
 
         inventario.setProducto(inventarioActualizado.getProducto());
         inventario.setUnidadesDisponibles(inventarioActualizado.getUnidadesDisponibles());
         inventario.setNivelReorden(inventarioActualizado.getNivelReorden());
-        inventario.setUltimaActualizacion(inventarioActualizado.getUltimaActualizacion());
 
         return inventarioRepository.save(inventario);
     }

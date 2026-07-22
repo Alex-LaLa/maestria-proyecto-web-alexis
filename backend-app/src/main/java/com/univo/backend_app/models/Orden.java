@@ -2,6 +2,8 @@ package com.univo.backend_app.models;
 
 import jakarta.persistence.*;
 import java.time.LocalDateTime;
+import jakarta.validation.constraints.*;
+import org.hibernate.annotations.CreationTimestamp;
 
 @Entity // Le dice a Spring que esto será una tabla en PostgreSQL
 @Table(name = "ordenes")
@@ -15,13 +17,22 @@ public class Orden {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    @NotNull(message = "Debe seleccionar un cliente.")
     @ManyToOne
     @JoinColumn(name = "cliente_id")
     private Cliente cliente;
 
+    @NotBlank(message = "El estado de la orden es obligatorio.")
     private String estado;
+
     private String motivoCancelacion;
+
+    @CreationTimestamp
+    @Column(nullable = false, updatable = false)
     private LocalDateTime fechaOrden;
+
+    @NotNull(message = "El total es obligatorio.")
+    @Positive(message = "El total debe ser mayor que cero.")
     private Double total;
 
     // ==========================
@@ -36,13 +47,11 @@ public class Orden {
     public Orden(Cliente cliente,
                  String estado,
                  String motivoCancelacion,
-                 LocalDateTime fechaOrden,
                  Double total) {
 
         this.cliente = cliente;
         this.estado = estado;
         this.motivoCancelacion = motivoCancelacion;
-        this.fechaOrden = fechaOrden;
         this.total = total;
     }
 
@@ -88,10 +97,6 @@ public class Orden {
 
     public void setMotivoCancelacion(String motivoCancelacion) {
         this.motivoCancelacion = motivoCancelacion;
-    }
-
-    public void setFechaOrden(LocalDateTime fechaOrden) {
-        this.fechaOrden = fechaOrden;
     }
 
     public void setTotal(Double total) {

@@ -1,6 +1,8 @@
 package com.univo.backend_app.models;
 
 import jakarta.persistence.*;
+import jakarta.validation.constraints.*;
+import org.hibernate.annotations.CreationTimestamp;
 
 import java.time.LocalDateTime;
 
@@ -16,13 +18,23 @@ public class Pago {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @ManyToOne
+    @NotNull(message = "Debe seleccionar una orden.")
+    @OneToOne
     @JoinColumn(name = "orden_id")
     private Orden orden;
 
+    @NotBlank(message = "El estado del pago es obligatorio.")
     private String estadoPago;
+
+    @NotBlank(message = "El método de pago es obligatorio.")
     private String metodoPago;
+
+    @NotNull(message = "El monto es obligatorio.")
+    @Positive(message = "El monto debe ser mayor que cero.")
     private Double monto;
+
+    @CreationTimestamp
+    @Column(nullable = false, updatable = false)
     private LocalDateTime fechaPago;
 
     // ==========================
@@ -37,14 +49,12 @@ public class Pago {
     public Pago(Orden orden,
                 String estadoPago,
                 String metodoPago,
-                Double monto,
-                LocalDateTime fechaPago) {
+                Double monto) {
 
         this.orden = orden;
         this.estadoPago = estadoPago;
         this.metodoPago = metodoPago;
         this.monto = monto;
-        this.fechaPago = fechaPago;
     }
 
     // ==========================
@@ -95,7 +105,4 @@ public class Pago {
         this.monto = monto;
     }
 
-    public void setFechaPago(LocalDateTime fechaPago) {
-        this.fechaPago = fechaPago;
-    }
 }

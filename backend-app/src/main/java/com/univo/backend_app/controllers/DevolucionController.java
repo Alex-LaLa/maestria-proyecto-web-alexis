@@ -2,7 +2,7 @@ package com.univo.backend_app.controllers;
 
 import com.univo.backend_app.models.Devolucion;
 import com.univo.backend_app.repositories.DevolucionRepository;
-
+import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -10,7 +10,7 @@ import java.util.List;
 import java.util.Optional;
 
 @RestController
-@RequestMapping("/devoluciones")
+@RequestMapping("/api/devoluciones")
 public class DevolucionController {
 
     @Autowired
@@ -27,13 +27,14 @@ public class DevolucionController {
     }
 
     @PostMapping
-    public Devolucion crearDevolucion(@RequestBody Devolucion devolucion) {
+    public Devolucion crearDevolucion(@Valid @RequestBody Devolucion devolucion) {
         return devolucionRepository.save(devolucion);
     }
 
     @PutMapping("/{id}")
-    public Devolucion actualizarDevolucion(@PathVariable Long id,
-                                           @RequestBody Devolucion devolucionActualizada) {
+    public Devolucion actualizarDevolucion(
+            @PathVariable Long id,
+            @Valid @RequestBody Devolucion devolucionActualizada) {
 
         Devolucion devolucion = devolucionRepository.findById(id).orElseThrow();
 
@@ -42,7 +43,6 @@ public class DevolucionController {
         devolucion.setMontoReembolsado(devolucionActualizada.getMontoReembolsado());
         devolucion.setMotivo(devolucionActualizada.getMotivo());
         devolucion.setEstado(devolucionActualizada.getEstado());
-        devolucion.setFechaCreacion(devolucionActualizada.getFechaCreacion());
 
         return devolucionRepository.save(devolucion);
     }

@@ -2,7 +2,7 @@ package com.univo.backend_app.controllers;
 
 import com.univo.backend_app.models.Pago;
 import com.univo.backend_app.repositories.PagoRepository;
-
+import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -10,7 +10,7 @@ import java.util.List;
 import java.util.Optional;
 
 @RestController
-@RequestMapping("/pagos")
+@RequestMapping("/api/pagos")
 public class PagoController {
 
     @Autowired
@@ -27,13 +27,14 @@ public class PagoController {
     }
 
     @PostMapping
-    public Pago crearPago(@RequestBody Pago pago) {
+    public Pago crearPago(@Valid @RequestBody Pago pago) {
         return pagoRepository.save(pago);
     }
 
     @PutMapping("/{id}")
-    public Pago actualizarPago(@PathVariable Long id,
-                               @RequestBody Pago pagoActualizado) {
+    public Pago actualizarPago(
+            @PathVariable Long id,
+            @Valid @RequestBody Pago pagoActualizado) {
 
         Pago pago = pagoRepository.findById(id).orElseThrow();
 
@@ -41,7 +42,6 @@ public class PagoController {
         pago.setEstadoPago(pagoActualizado.getEstadoPago());
         pago.setMetodoPago(pagoActualizado.getMetodoPago());
         pago.setMonto(pagoActualizado.getMonto());
-        pago.setFechaPago(pagoActualizado.getFechaPago());
 
         return pagoRepository.save(pago);
     }

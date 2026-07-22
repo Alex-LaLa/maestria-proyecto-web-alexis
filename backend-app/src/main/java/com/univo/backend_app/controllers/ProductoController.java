@@ -2,7 +2,7 @@ package com.univo.backend_app.controllers;
 
 import com.univo.backend_app.models.Producto;
 import com.univo.backend_app.repositories.ProductoRepository;
-
+import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -10,7 +10,7 @@ import java.util.List;
 import java.util.Optional;
 
 @RestController
-@RequestMapping("/productos")
+@RequestMapping("/api/productos")
 public class ProductoController {
 
     @Autowired
@@ -48,7 +48,7 @@ public class ProductoController {
     //}
 
     @PostMapping
-    public Producto crearProducto(@RequestBody Producto producto) {
+    public Producto crearProducto(@Valid @RequestBody Producto producto) {
         return productoRepository.save(producto);
     }
 
@@ -63,10 +63,10 @@ public class ProductoController {
     //    "activo":true
     //}
 
-
     @PutMapping("/{id}")
-    public Producto actualizarProducto(@PathVariable Long id,
-                                       @RequestBody Producto productoActualizado) {
+    public Producto actualizarProducto(
+            @PathVariable Long id,
+            @Valid @RequestBody Producto productoActualizado) {
 
         Producto producto = productoRepository.findById(id).orElseThrow();
 

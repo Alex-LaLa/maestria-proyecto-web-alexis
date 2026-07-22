@@ -1,6 +1,7 @@
 package com.univo.backend_app.models;
 
 import jakarta.persistence.*;
+import jakarta.validation.constraints.*;
 
 @Entity
 @Table(name = "productos")
@@ -14,20 +15,26 @@ public class Producto {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    @NotBlank(message = "El nombre es obligatorio.")
     private String nombre;
+
+    @NotBlank(message = "La categoría es obligatoria.")
     private String categoria;
+
+    @NotNull(message = "El precio es obligatorio.")
+    @Positive(message = "El precio debe ser mayor que cero.")
     private Double precio;
+
+    @NotNull(message = "Debe indicar si el producto está activo.")
     private Boolean activo;
 
     // ==========================
     // CONSTRUCTORES
     // ==========================
 
-    // Constructor vacío
     public Producto() {
     }
 
-    // Constructor con parámetros
     public Producto(String nombre, String categoria, Double precio, Boolean activo) {
         this.nombre = nombre;
         this.categoria = categoria;
