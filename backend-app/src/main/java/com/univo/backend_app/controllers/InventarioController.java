@@ -3,7 +3,6 @@ package com.univo.backend_app.controllers;
 import com.univo.backend_app.models.Inventario;
 import com.univo.backend_app.repositories.InventarioRepository;
 import jakarta.validation.Valid;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -11,10 +10,11 @@ import java.util.Optional;
 
 @RestController
 @RequestMapping("/api/inventario")
+@CrossOrigin(origins = "http://localhost:4200")
 public class InventarioController {
 
-    @Autowired
-    private InventarioRepository inventarioRepository;
+    private final InventarioRepository inventarioRepository;
+    public InventarioController(InventarioRepository inventarioRepository) {this.inventarioRepository = inventarioRepository;}
 
     @GetMapping
     public List<Inventario> obtenerInventario() {

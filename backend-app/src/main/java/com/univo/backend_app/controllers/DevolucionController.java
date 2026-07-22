@@ -3,7 +3,6 @@ package com.univo.backend_app.controllers;
 import com.univo.backend_app.models.Devolucion;
 import com.univo.backend_app.repositories.DevolucionRepository;
 import jakarta.validation.Valid;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -11,10 +10,11 @@ import java.util.Optional;
 
 @RestController
 @RequestMapping("/api/devoluciones")
+@CrossOrigin(origins = "http://localhost:4200")
 public class DevolucionController {
 
-    @Autowired
-    private DevolucionRepository devolucionRepository;
+    private final DevolucionRepository devolucionRepository;
+    public DevolucionController(DevolucionRepository devolucionRepository) {this.devolucionRepository = devolucionRepository;}
 
     @GetMapping
     public List<Devolucion> obtenerDevoluciones() {

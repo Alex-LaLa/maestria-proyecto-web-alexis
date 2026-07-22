@@ -3,7 +3,6 @@ package com.univo.backend_app.controllers;
 import com.univo.backend_app.models.Cliente;
 import com.univo.backend_app.repositories.ClienteRepository;
 import jakarta.validation.Valid;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -11,10 +10,11 @@ import java.util.Optional;
 
 @RestController
 @RequestMapping("/api/clientes")
+@CrossOrigin(origins = "http://localhost:4200")
 public class ClienteController {
 
-    @Autowired
-    private ClienteRepository clienteRepository;
+    private final ClienteRepository clienteRepository;
+    public ClienteController(ClienteRepository clienteRepository) {this.clienteRepository = clienteRepository;}
 
     // ==========================
     // GET - Obtener todos los clientes

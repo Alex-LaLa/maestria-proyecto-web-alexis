@@ -3,7 +3,6 @@ package com.univo.backend_app.controllers;
 import com.univo.backend_app.models.Orden;
 import com.univo.backend_app.repositories.OrdenRepository;
 import jakarta.validation.Valid;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -11,10 +10,11 @@ import java.util.Optional;
 
 @RestController
 @RequestMapping("/api/ordenes")
+@CrossOrigin(origins = "http://localhost:4200")
 public class OrdenController {
 
-    @Autowired
-    private OrdenRepository ordenRepository;
+    private final OrdenRepository ordenRepository;
+    public OrdenController(OrdenRepository ordenRepository) {this.ordenRepository = ordenRepository;}
 
     @GetMapping
     public List<Orden> obtenerOrdenes() {

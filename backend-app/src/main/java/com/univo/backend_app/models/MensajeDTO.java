@@ -13,6 +13,12 @@ public class MensajeDTO {
     private String texto;
     private String remitente;
 
+    public MensajeDTO() {}
+    public MensajeDTO(String texto, String remitente) {
+        this.texto = texto;
+        this.remitente = remitente;
+    }
+
     // Genera los Getters y Setters (obligatorios para JPA)
     // ...
     public Long getId() {

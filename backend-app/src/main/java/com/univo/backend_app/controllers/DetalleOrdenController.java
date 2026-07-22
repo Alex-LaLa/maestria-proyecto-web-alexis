@@ -3,7 +3,6 @@ package com.univo.backend_app.controllers;
 import com.univo.backend_app.models.DetalleOrden;
 import com.univo.backend_app.repositories.DetalleOrdenRepository;
 import jakarta.validation.Valid;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -11,10 +10,11 @@ import java.util.Optional;
 
 @RestController
 @RequestMapping("/api/detalle-orden")
+@CrossOrigin(origins = "http://localhost:4200")
 public class DetalleOrdenController {
 
-    @Autowired
-    private DetalleOrdenRepository detalleOrdenRepository;
+    private final DetalleOrdenRepository detalleOrdenRepository;
+    public DetalleOrdenController(DetalleOrdenRepository detalleOrdenRepository) {this.detalleOrdenRepository = detalleOrdenRepository;}
 
     @GetMapping
     public List<DetalleOrden> obtenerDetalles() {
