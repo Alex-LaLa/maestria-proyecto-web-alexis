@@ -2,7 +2,7 @@ package com.univo.backend_app.models;
 
 import jakarta.persistence.*;
 import jakarta.validation.constraints.*;
-import org.hibernate.annotations.UpdateTimestamp;
+import org.hibernate.annotations.CreationTimestamp;
 
 import java.time.LocalDateTime;
 
@@ -31,8 +31,8 @@ public class Inventario {
     @PositiveOrZero(message = "El nivel de reorden no puede ser negativo.")
     private Integer nivelReorden;
 
-    @UpdateTimestamp
-    @Column(nullable = false)
+    @CreationTimestamp
+    @Column(nullable = false, updatable = false)
     private LocalDateTime ultimaActualizacion;
 
     // ==========================
