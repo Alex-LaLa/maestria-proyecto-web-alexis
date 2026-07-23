@@ -5,8 +5,19 @@ import org.springframework.stereotype.Component;
 import java.util.List;
 import java.util.Map;
 
+
 @Component
 public class IntentDetector {
+
+    private final IntentClassifierAI classifierAI;
+
+
+    public IntentDetector(IntentClassifierAI classifierAI) {
+
+        this.classifierAI = classifierAI;
+
+    }
+
 
     private final Map<Intent, List<String>> keywords = Map.of(
 
@@ -101,7 +112,7 @@ public class IntentDetector {
         String text = question.toLowerCase();
 
 
-        // 1. Intenciones muy específicas primero
+        // 1. Reglas específicas
 
         if(text.contains("pagos pendientes")
                 || text.contains("pago pendiente")
@@ -138,6 +149,7 @@ public class IntentDetector {
         }
 
 
+
         // 2. Reglas generales
 
         for(var entry : keywords.entrySet()){
@@ -155,7 +167,9 @@ public class IntentDetector {
         }
 
 
-        return Intent.UNKNOWN;
+        // 3. Si no encuentra nada, usa IA
+
+        return classifierAI.classify(question);
 
     }
 

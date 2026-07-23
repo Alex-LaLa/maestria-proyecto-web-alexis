@@ -17,7 +17,7 @@ public class TopClientsHandler implements AIHandler {
 
     private final AIRepository repository;
     private final TopClientsPromptBuilder promptBuilder;
-    private final ChatClient chatClient;
+    private final   ChatClient chatClient;
 
 
     public TopClientsHandler(
