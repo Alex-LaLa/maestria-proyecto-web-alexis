@@ -3,7 +3,6 @@ package com.univo.backend_app.controllers;
 import com.univo.backend_app.models.Pago;
 import com.univo.backend_app.repositories.PagoRepository;
 import jakarta.validation.Valid;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -11,10 +10,11 @@ import java.util.Optional;
 
 @RestController
 @RequestMapping("/api/pagos")
+@CrossOrigin(origins = "http://localhost:4200")
 public class PagoController {
 
-    @Autowired
-    private PagoRepository pagoRepository;
+    private final PagoRepository pagoRepository;
+    public PagoController(PagoRepository pagoRepository) {this.pagoRepository = pagoRepository;}
 
     @GetMapping
     public List<Pago> obtenerPagos() {
