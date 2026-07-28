@@ -18,8 +18,10 @@ public class Producto {
     @NotBlank(message = "El nombre es obligatorio.")
     private String nombre;
 
-    @NotBlank(message = "La categoría es obligatoria.")
-    private String categoria;
+    @NotNull(message = "La categoría es obligatoria.")
+    @ManyToOne
+    @JoinColumn(name = "categoria_id")
+    private Categoria categoria;
 
     @NotNull(message = "El precio es obligatorio.")
     @Positive(message = "El precio debe ser mayor que cero.")
@@ -35,7 +37,11 @@ public class Producto {
     public Producto() {
     }
 
-    public Producto(String nombre, String categoria, Double precio, Boolean activo) {
+    public Producto(String nombre,
+                    Categoria categoria,
+                    Double precio,
+                    Boolean activo) {
+
         this.nombre = nombre;
         this.categoria = categoria;
         this.precio = precio;
@@ -54,7 +60,7 @@ public class Producto {
         return nombre;
     }
 
-    public String getCategoria() {
+    public Categoria getCategoria() {
         return categoria;
     }
 
@@ -74,7 +80,7 @@ public class Producto {
         this.nombre = nombre;
     }
 
-    public void setCategoria(String categoria) {
+    public void setCategoria(Categoria categoria) {
         this.categoria = categoria;
     }
 

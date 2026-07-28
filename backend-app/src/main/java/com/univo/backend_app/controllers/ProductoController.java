@@ -1,6 +1,8 @@
 package com.univo.backend_app.controllers;
 
+import com.univo.backend_app.models.Categoria;
 import com.univo.backend_app.models.Producto;
+import com.univo.backend_app.repositories.CategoriaRepository;
 import com.univo.backend_app.repositories.ProductoRepository;
 import jakarta.validation.Valid;
 import org.springframework.web.bind.annotation.*;
@@ -14,7 +16,16 @@ import java.util.Optional;
 public class ProductoController {
 
     private final ProductoRepository productoRepository;
-    public ProductoController(ProductoRepository productoRepository) {this.productoRepository = productoRepository;}
+    private final CategoriaRepository categoriaRepository;
+    public ProductoController(
+            ProductoRepository productoRepository,
+            CategoriaRepository categoriaRepository) {
+
+        this.productoRepository = productoRepository;
+        this.categoriaRepository = categoriaRepository;
+    }
+
+
 
     // ==========================
     // GET - Obtener todos los productos
@@ -39,29 +50,21 @@ public class ProductoController {
     // ==========================
     // POST - Crear un producto
     // ==========================
-    //Ej.POST /productos
-    // {
-    //    "nombre":"Laptop",
-    //    "categoria":"Electrónica",
-    //    "precio":15000,
-    //    "activo":true
-    //}
 
     @PostMapping
-    public Producto crearProducto(@Valid @RequestBody Producto producto) {
+    public Producto crear(@RequestBody Producto producto){
+
+        Categoria categoria = categoriaRepository
+                .findById(producto.getCategoria().getId())
+                .orElseThrow();
+
+        producto.setCategoria(categoria);
+
         return productoRepository.save(producto);
     }
-
     // ==========================
     // PUT - Actualizar un producto
     // ==========================
-    //Ej. PUT /productos/1
-    //{
-    //    "nombre":"Laptop Gamer",
-    //    "categoria":"Electrónica",
-    //    "precio":18000,
-    //    "activo":true
-    //}
 
     @PutMapping("/{id}")
     public Producto actualizarProducto(

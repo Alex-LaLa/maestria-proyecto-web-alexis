@@ -1,0 +1,39 @@
+INSERT INTO ordenes
+(cliente_id, estado, motivo_cancelacion, fecha_orden, total)
+VALUES
+
+(1, 'COMPLETADA', NULL, NOW() - INTERVAL '20 days', 185.00),
+(2, 'COMPLETADA', NULL, NOW() - INTERVAL '18 days', 320.00),
+(3, 'COMPLETADA', NULL, NOW() - INTERVAL '17 days', 95.00),
+(4, 'COMPLETADA', NULL, NOW() - INTERVAL '15 days', 450.00),
+(5, 'COMPLETADA', NULL, NOW() - INTERVAL '14 days', 210.00),
+
+(6, 'PENDIENTE', NULL, NOW() - INTERVAL '12 days', 175.00),
+(7, 'COMPLETADA', NULL, NOW() - INTERVAL '11 days', 560.00),
+(8, 'CANCELADA', 'Cliente cambió de opinión', NOW() - INTERVAL '10 days', 120.00),
+(9, 'COMPLETADA', NULL, NOW() - INTERVAL '9 days', 275.00),
+(10, 'COMPLETADA', NULL, NOW() - INTERVAL '8 days', 390.00),
+
+(11, 'COMPLETADA', NULL, NOW() - INTERVAL '7 days', 150.00),
+(12, 'COMPLETADA', NULL, NOW() - INTERVAL '7 days', 620.00),
+(13, 'PENDIENTE', NULL, NOW() - INTERVAL '6 days', 80.00),
+(14, 'COMPLETADA', NULL, NOW() - INTERVAL '5 days', 240.00),
+(15, 'COMPLETADA', NULL, NOW() - INTERVAL '5 days', 510.00),
+
+(16, 'COMPLETADA', NULL, NOW() - INTERVAL '4 days', 330.00),
+(17, 'COMPLETADA', NULL, NOW() - INTERVAL '4 days', 190.00),
+(18, 'CANCELADA', 'Producto agotado', NOW() - INTERVAL '3 days', 75.00),
+(19, 'COMPLETADA', NULL, NOW() - INTERVAL '2 days', 420.00),
+(20, 'COMPLETADA', NULL, NOW() - INTERVAL '1 day', 285.00),
+
+(1, 'COMPLETADA', NULL, NOW(), 350.00),
+(2, 'COMPLETADA', NULL, NOW(), 145.00),
+(3, 'PENDIENTE', NULL, NOW(), 90.00),
+(4, 'COMPLETADA', NULL, NOW(), 680.00),
+(5, 'COMPLETADA', NULL, NOW(), 225.00),
+
+(6, 'COMPLETADA', NULL, NOW(), 410.00),
+(7, 'COMPLETADA', NULL, NOW(), 135.00),
+(8, 'COMPLETADA', NULL, NOW(), 295.00),
+(9, 'CANCELADA', 'Error en captura', NOW(), 200.00),
+(10, 'COMPLETADA', NULL, NOW(), 375.00);
