@@ -140,31 +140,77 @@ li {
    ========================== */
 
 table {
-  width: 100%;
-  overflow: hidden;
-  border-radius: 10px;
-}
 
+    width: 100%;
+
+    border-radius: 12px;
+
+    overflow: hidden;
+
+}
 
 .mat-mdc-header-row {
-  background: #3f51b5;
-}
 
+    background: #1976d2;
+
+}
 
 .mat-mdc-header-cell {
-  color: white;
-  font-weight: bold;
+
+    color: white !important;
+
+    font-weight: 600;
+
+    font-size: 14px;
+
 }
 
+.mat-mdc-row:hover {
+
+    background: #f4f8ff;
+
+    transition: .2s;
+
+}
 
 .mat-mdc-cell,
 .mat-mdc-header-cell {
-  padding: 14px;
+
+    padding: 16px;
+
 }
 
+.header-productos{
 
-.mat-mdc-row:hover {
-  background: #f5f5f5;
+    width:100%;
+
+    display:flex;
+
+    justify-content:space-between;
+
+    align-items:center;
+
+}
+
+.contador{
+
+    background:#1976d2;
+
+    color:white;
+
+    padding:6px 12px;
+
+    border-radius:20px;
+
+    font-size:13px;
+
+}
+
+.col-id,
+.col-activo{
+
+    text-align:center;
+
 }
 
 
@@ -188,5 +234,33 @@ table {
     display: block;
     overflow-x: auto;
   }
+
+}
+
+.estado{
+
+    padding:6px 12px;
+
+    border-radius:20px;
+
+    font-size:12px;
+
+    font-weight:600;
+
+}
+
+.activo{
+
+    background:#dff6e5;
+
+    color:#2e7d32;
+
+}
+
+.inactivo{
+
+    background:#fde7e9;
+
+    color:#c62828;
 
 }

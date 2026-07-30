@@ -12,6 +12,8 @@ import { MatInputModule } from '@angular/material/input';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { MarkdownModule } from 'ngx-markdown';
 import { AiService } from '../../services/ai';
+import { AuthService } from '../../services/auth';
+import { MatChipsModule } from '@angular/material/chips';
 
 
 @Component({
@@ -26,6 +28,7 @@ import { AiService } from '../../services/ai';
     MatTableModule,
     MatInputModule,
     MatProgressSpinnerModule,
+    MatChipsModule,
     MarkdownModule
   ],
   templateUrl: './dashboard.html',
@@ -63,7 +66,8 @@ export class DashboardComponent implements OnInit {
     private router: Router,
     private http: HttpClient,
     private aiService: AiService,
-    private cdr: ChangeDetectorRef
+    private cdr: ChangeDetectorRef,
+    private authService: AuthService
   ) {}
 
   ngOnInit(): void {
@@ -80,9 +84,14 @@ export class DashboardComponent implements OnInit {
     // ========= Proyecto =========
 
     this.http.get<any[]>('http://localhost:8080/api/productos')
-      .subscribe(data => {
-        this.productos = data;
-      });
+    .subscribe(data => {
+
+      console.log("Productos:", data);
+
+      this.productos = data;
+
+      this.cdr.detectChanges();
+    });
       
 
   }
@@ -178,8 +187,12 @@ export class DashboardComponent implements OnInit {
 }
     
 
-  logout(): void {
-    this.router.navigate(['/login']);
+    logout(): void {
+
+      this.authService.logout();
+
+      this.router.navigate(['/login']);
+
   }
 
 }
