@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ChangeDetectorRef } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { Router } from '@angular/router';
 import { HttpClient } from '@angular/common/http';
@@ -7,16 +7,26 @@ import { MatToolbarModule } from '@angular/material/toolbar';
 import { MatButtonModule } from '@angular/material/button';
 import { MatCardModule } from '@angular/material/card';
 import { MatTableModule } from '@angular/material/table';
+import { FormsModule } from '@angular/forms';
+import { MatInputModule } from '@angular/material/input';
+import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
+import { MarkdownModule } from 'ngx-markdown';
+import { AiService } from '../../services/ai';
+
 
 @Component({
   selector: 'app-dashboard',
   standalone: true,
   imports: [
     CommonModule,
+    FormsModule,
     MatToolbarModule,
     MatButtonModule,
     MatCardModule,
-    MatTableModule
+    MatTableModule,
+    MatInputModule,
+    MatProgressSpinnerModule,
+    MarkdownModule
   ],
   templateUrl: './dashboard.html',
   styleUrl: './dashboard.css'
@@ -28,6 +38,12 @@ export class DashboardComponent implements OnInit {
   // ==========================
 
   mensajes: any[] = [];
+  
+  pregunta: string = '';
+
+  respuestaIA: string = '';
+
+  cargando = false;
 
   // ==========================
   // Proyecto SaaS
@@ -45,7 +61,9 @@ export class DashboardComponent implements OnInit {
 
   constructor(
     private router: Router,
-    private http: HttpClient
+    private http: HttpClient,
+    private aiService: AiService,
+    private cdr: ChangeDetectorRef
   ) {}
 
   ngOnInit(): void {
@@ -57,14 +75,108 @@ export class DashboardComponent implements OnInit {
         this.mensajes = data;
       });
 
+
+    
     // ========= Proyecto =========
 
-    this.http.get<any[]>('http://localhost:8080/productos')
+    this.http.get<any[]>('http://localhost:8080/api/productos')
       .subscribe(data => {
         this.productos = data;
       });
+      
 
   }
+    
+
+  enviarPregunta(): void {
+
+  if (!this.pregunta.trim()) {
+    return;
+  }
+
+  console.time("TIEMPO_TOTAL_IA");
+
+  console.log("1. ENVIANDO PREGUNTA:", this.pregunta);
+
+  this.cargando = true;
+  this.respuestaIA = '';
+
+  console.log("2. cargando =", this.cargando);
+
+
+  this.aiService.consultar(this.pregunta)
+    .subscribe({
+
+      next: (res) => {
+
+        console.timeEnd("TIEMPO_TOTAL_IA");
+
+        console.log("3. ENTRÓ AL NEXT");
+
+        console.log("4. Respuesta completa:", res);
+
+        console.log(
+          "5. Tamaño respuesta:",
+          res.respuesta?.length
+        );
+
+
+        this.respuestaIA = res.respuesta;
+
+        console.log(
+          "6. respuestaIA asignada:",
+          this.respuestaIA
+        );
+
+
+        this.cargando = false;
+
+        console.log(
+          "7. cargando cambiado:",
+          this.cargando
+        );
+
+
+        this.cdr.detectChanges();
+
+        console.log(
+          "8. detectChanges ejecutado"
+        );
+
+
+        setTimeout(() => {
+
+          console.log(
+            "9. Timeout después del render"
+          );
+
+          console.log(
+            "10. Valor en pantalla debería ser:",
+            this.respuestaIA
+          );
+
+        }, 0);
+
+      },
+
+
+      error: (err) => {
+
+        console.error("ERROR IA:", err);
+
+        this.respuestaIA =
+          "Ocurrió un error al consultar la IA.";
+
+        this.cargando = false;
+
+        this.cdr.detectChanges();
+
+      }
+
+    });
+
+}
+    
 
   logout(): void {
     this.router.navigate(['/login']);
