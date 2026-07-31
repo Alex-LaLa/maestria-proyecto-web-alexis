@@ -1,0 +1,79 @@
+<h2 mat-dialog-title>
+
+    {{ producto.id ? 'Editar Producto' : 'Nuevo Producto' }}
+
+</h2>
+
+<mat-dialog-content>
+
+    <mat-form-field appearance="outline" style="width:100%;">
+
+        <mat-label>Nombre</mat-label>
+
+        <input
+            matInput
+            [(ngModel)]="producto.nombre">
+
+    </mat-form-field>
+
+    <mat-form-field appearance="outline" style="width:100%;">
+
+        <mat-label>Categoría</mat-label>
+
+        <mat-select [(ngModel)]="producto.categoria">
+
+            <mat-option
+                *ngFor="let categoria of categorias"
+                [value]="categoria">
+
+                {{ categoria.nombre }}
+
+            </mat-option>
+
+        </mat-select>
+
+    </mat-form-field>
+
+    <mat-form-field appearance="outline" style="width:100%;">
+
+        <mat-label>Precio</mat-label>
+
+        <input
+            matInput
+            type="number"
+            [(ngModel)]="producto.precio">
+
+    </mat-form-field>
+
+    <mat-checkbox [(ngModel)]="producto.activo">
+
+        Producto activo
+
+    </mat-checkbox>
+
+</mat-dialog-content>
+
+<mat-dialog-actions align="end">
+
+    <button
+        mat-button
+        (click)="cancelar()">
+
+        Cancelar
+
+    </button>
+
+<button
+    mat-raised-button
+    color="primary"
+    (click)="guardar()"
+    [disabled]="
+        !producto.nombre ||
+        !producto.categoria ||
+        producto.precio <= 0">
+
+    Guardar
+
+</button>
+
+</mat-dialog-actions>

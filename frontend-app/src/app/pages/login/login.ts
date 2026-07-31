@@ -1,12 +1,18 @@
 import { Component } from '@angular/core';
-import {MatCardModule} from '@angular/material/card';
-import {MatInputModule} from '@angular/material/input';
-import {MatButtonModule} from '@angular/material/button';
-import {Router} from '@angular/router';
+import { FormsModule } from '@angular/forms';
+import { Router } from '@angular/router';
+
+import { MatCardModule } from '@angular/material/card';
+import { MatInputModule } from '@angular/material/input';
+import { MatButtonModule } from '@angular/material/button';
+
+import { AuthService } from '../../services/auth';
 
 @Component({
   selector: 'app-login',
+  standalone: true,
   imports: [
+    FormsModule,
     MatCardModule,
     MatInputModule,
     MatButtonModule
@@ -15,8 +21,38 @@ import {Router} from '@angular/router';
   styleUrl: './login.css',
 })
 export class LoginComponent {
-  constructor(private router: Router) {}
+
+  email = '';
+
+  password = '';
+
+  constructor(
+    private router: Router,
+    private authService: AuthService
+  ) {}
+
   ingresarSistema() {
-    this.router.navigate(['/dashboard']);
+
+    this.authService
+      .login(this.email, this.password)
+      .subscribe({
+
+        next: (res) => {
+
+          this.authService.guardarToken(res.token);
+
+          this.router.navigate(['/dashboard']);
+
+        },
+
+        error: () => {
+
+          alert('Correo o contraseña incorrectos');
+
+        }
+
+      });
+
   }
+
 }
