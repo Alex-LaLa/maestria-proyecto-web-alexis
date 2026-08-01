@@ -1,79 +1,122 @@
 <h2 mat-dialog-title>
 
-    {{ producto.id ? 'Editar Producto' : 'Nuevo Producto' }}
+  {{ editando ? 'Editar Producto' : 'Nuevo Producto' }}
 
 </h2>
 
-<mat-dialog-content>
 
-    <mat-form-field appearance="outline" style="width:100%;">
+<mat-dialog-content class="dialog-content">
 
-        <mat-label>Nombre</mat-label>
+  <!-- Nombre -->
 
-        <input
-            matInput
-            [(ngModel)]="producto.nombre">
+  <mat-form-field appearance="outline">
 
-    </mat-form-field>
+    <mat-label>Nombre</mat-label>
 
-    <mat-form-field appearance="outline" style="width:100%;">
+    <input
+      matInput
+      [(ngModel)]="producto.nombre"
+      placeholder="Ej. Coca-Cola 600ml">
 
-        <mat-label>Categoría</mat-label>
+  </mat-form-field>
 
-        <mat-select [(ngModel)]="producto.categoria">
 
-            <mat-option
-                *ngFor="let categoria of categorias"
-                [value]="categoria">
+  <!-- Categoría -->
 
-                {{ categoria.nombre }}
+  <mat-form-field appearance="outline">
 
-            </mat-option>
+    <mat-label>Categoría</mat-label>
 
-        </mat-select>
+    <mat-select [(ngModel)]="producto.categoria">
 
-    </mat-form-field>
+      <mat-option
+        *ngFor="let categoria of categorias"
+        [value]="categoria">
 
-    <mat-form-field appearance="outline" style="width:100%;">
+        {{ categoria.nombre }}
 
-        <mat-label>Precio</mat-label>
+      </mat-option>
 
-        <input
-            matInput
-            type="number"
-            [(ngModel)]="producto.precio">
+    </mat-select>
 
-    </mat-form-field>
+  </mat-form-field>
 
-    <mat-checkbox [(ngModel)]="producto.activo">
 
-        Producto activo
+  <!-- Precio -->
 
-    </mat-checkbox>
+  <mat-form-field appearance="outline">
+
+    <mat-label>Precio</mat-label>
+
+    <input
+      matInput
+      type="number"
+      [(ngModel)]="producto.precio">
+
+    <span matTextPrefix>$&nbsp;</span>
+
+  </mat-form-field>
+
+
+  <!-- Cantidad -->
+
+  <mat-form-field appearance="outline">
+
+    <mat-label>Cantidad disponible</mat-label>
+
+    <input
+      matInput
+      type="number"
+      min="0"
+      [(ngModel)]="inventario.unidadesDisponibles">
+
+  </mat-form-field>
+
+
+  <!-- Nivel de reorden -->
+
+  <mat-form-field appearance="outline">
+
+    <mat-label>Nivel de reorden</mat-label>
+
+    <input
+      matInput
+      type="number"
+      min="0"
+      [(ngModel)]="inventario.nivelReorden">
+
+  </mat-form-field>
+
+
+  <!-- Activo -->
+
+  <mat-checkbox [(ngModel)]="producto.activo">
+
+    Producto activo
+
+  </mat-checkbox>
 
 </mat-dialog-content>
 
+
 <mat-dialog-actions align="end">
 
-    <button
-        mat-button
-        (click)="cancelar()">
+  <button
+    mat-button
+    (click)="cancelar()">
 
-        Cancelar
+    Cancelar
 
-    </button>
+  </button>
 
-<button
+
+  <button
     mat-raised-button
     color="primary"
-    (click)="guardar()"
-    [disabled]="
-        !producto.nombre ||
-        !producto.categoria ||
-        producto.precio <= 0">
+    (click)="guardar()">
 
-    Guardar
+    {{ editando ? 'Guardar cambios' : 'Guardar' }}
 
-</button>
+  </button>
 
 </mat-dialog-actions>
